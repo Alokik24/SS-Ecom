@@ -5,48 +5,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="098079b1-c2e1-4497-80f9-375481020f9e" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/SSecom.iml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/profiles_settings.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/material_theme_project_new.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/apps/__init__.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/apps/apps.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/apps/carts/queries.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/apps/carts/serializers.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/apps/carts/services.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/apps/carts/urls.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/apps/orders/__init__.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/apps/orders/models.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/apps/orders/queries.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/apps/orders/serializers.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/apps/orders/services.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/apps/orders/urls.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/apps/orders/views.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/apps/payments/models.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/apps/products/__init__.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/apps/products/models.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/apps/products/queries.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/apps/products/serializers.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/apps/products/services.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/apps/products/urls.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/apps/products/validators.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/apps/products/views.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/apps/users/__init__.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/apps/users/admin.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/apps/users/middleware.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/apps/users/models.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/apps/users/permissions.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/apps/users/serializers.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/apps/users/tokens.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/apps/users/urls.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/apps/users/utils.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/apps/users/views.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/apps/wishlist/queries.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/apps/wishlist/serializers.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/apps/wishlist/urls.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -74,23 +33,23 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;ModuleVcsDetector.initialDetectionPerformed&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.OpenDjangoStructureViewOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.pycharm.django.structure.promotion.once.per.project&quot;: &quot;true&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;master&quot;,
-    &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
-    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
-    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
-    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
-    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
-    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "ModuleVcsDetector.initialDetectionPerformed": "true",
+    "RunOnceActivity.OpenDjangoStructureViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.git.unshallow": "true",
+    "RunOnceActivity.pycharm.django.structure.promotion.once.per.project": "true",
+    "git-widget-placeholder": "feature/2fa-setup",
+    "ignore.virus.scanning.warn.message": "true",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "vue.rearranger.settings.migration": "true"
   }
-}</component>
+}]]></component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
       <recent name="D:\SSecom\apps\products" />
@@ -144,7 +103,7 @@
       <workItem from="1749537958471" duration="20245000" />
       <workItem from="1749617829102" duration="1135000" />
       <workItem from="1749618994845" duration="27234000" />
-      <workItem from="1749705015420" duration="5774000" />
+      <workItem from="1749705015420" duration="6562000" />
     </task>
     <servers />
   </component>
