@@ -1,6 +1,6 @@
 from django.db import models
 from django.conf import settings
-
+from decimal import Decimal, ROUND_HALF_UP
 from apps.products.models import Product
 
 # Create your models here.
@@ -38,6 +38,6 @@ class CartItem(models.Model):
 
     @property
     def total(self):
-        price = self.product.price or self.product.discount_price or 0
-        return price * self.quantity
+        price = self.product.discount_price or self.product.price or Decimal("0.00")
+        return (price * self.quantity).quantize(Decimal("0.01"), rounding=ROUND_HALF_UP)
 

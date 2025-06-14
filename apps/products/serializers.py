@@ -7,6 +7,7 @@ from .validators import (
     validate_price_positive,
 )
 from .services import assign_vendor
+from decimal import Decimal, InvalidOperation
 
 class SubCategorySerializer(serializers.ModelSerializer):
     class Meta:
@@ -60,7 +61,28 @@ class ProductSerializer(serializers.ModelSerializer):
         return validate_image_size(value)
 
     def validate(self, data):
+        data['price'] = validate_price_positive(data.get('price', 0))
+
+        discount = data.get('discount_price')
+        if discount is not None:
+            try:
+                data['discount_price'] = Decimal(str(discount)).quantize(Decimal("0.01"))
+            except (InvalidOperation, ValueError, TypeError):
+                raise serializers.ValidationError({
+                    "discount_price": "Invalid discount format. Must be a number with up to 2 decimal places."
+                })
         return validate_product_data(data)
+
+    def validate_price_positive(value):
+        try:
+            value = Decimal(str(value)).quantize(Decimal("0.01"))
+        except (InvalidOperation, ValueError, TypeError):
+            raise serializers.ValidationError("Invalid price format. Must be a number with 2 decimal places.")
+
+        if value < 0:
+            raise serializers.ValidationError("Price must be positive.")
+
+        return value
 
     def validate_price(self, value):
         return validate_price_positive(value)

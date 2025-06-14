@@ -43,6 +43,7 @@ urlpatterns = [
     path('api/', include('apps.carts.urls')),
     path('api/', include('apps.orders.urls')),
     path('api/', include('apps.wishlist.urls')),
+    path('api/', include('apps.payments.urls')),
 
     # Swagger and ReDoc
     re_path(r'^swagger(?P<format>\.json|\.yaml)$',

@@ -22,7 +22,7 @@ class OrderViewSet(viewsets.ModelViewSet):
         if not cart or not cart.items.exists():
             return Response({'message': 'Cart is empty'}, status=status.HTTP_400_BAD_REQUEST)
 
-        order = place_order_from_cart(cart)
+        order = place_order_from_cart(request.user, cart)
         return Response({"message": "Order placed successfully", "order_id": order.id}, status=status.HTTP_201_CREATED)
 
     @action(detail=True, methods=['post'])
@@ -30,7 +30,7 @@ class OrderViewSet(viewsets.ModelViewSet):
         order = self.get_object()
 
         try:
-            cancel_user_order(order, request.user, request.data.get('reason', ''))
+            cancel_user_order(request.user, order, request.data.get('reason', ''))
         except PermissionError:
             return Response({'message': 'Unauthorized'}, status=status.HTTP_403_FORBIDDEN)
         except ValueError as e:
@@ -42,5 +42,6 @@ class OrderStatusHistoryViewSet(viewsets.ModelViewSet):
     permission_classes = [permissions.IsAuthenticated]
 
     def get_queryset(self):
-        order_id = self.request.query_params.get('order_id')
+        if not self.request.user.is_authenticated:
+            return OrderStatusHistory.objects.none()  # Return empty queryset if anonymous
         return get_order_status_history_for_user(self.request.user, order_id)

@@ -16,7 +16,7 @@ from .queries import (
 
 class WishlistViewSet(GenericViewSet):
     permission_classes = [IsAuthenticated]
-
+    serializer_class = WishlistSerializer
     def list(self, request):
         wishlist = get_or_create_user_wishlist(request.user)
         serializer = WishlistSerializer(wishlist)

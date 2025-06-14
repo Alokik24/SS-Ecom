@@ -2,7 +2,7 @@ from rest_framework import serializers
 from .models import Cart, CartItem
 from ..products.models import Product
 from ..products.serializers import ProductSerializer
-
+from decimal import Decimal, ROUND_HALF_UP
 
 class CartItemSerializer(serializers.ModelSerializer):
     product = serializers.PrimaryKeyRelatedField(
@@ -43,13 +43,13 @@ class CartSerializer(serializers.ModelSerializer):
         read_only_fields = ['user', 'created_at']
 
     def get_total_cart_value(self, obj):
-        """Calculate total value after coupon discount (if active)."""
         items = obj.items.select_related('product')
         subtotal = sum(
-            (item.product.discount_price or item.product.price or 0) * item.quantity
+            ((item.product.discount_price or item.product.price or Decimal("0.00")) * item.quantity).quantize(
+                Decimal("0.01"), rounding=ROUND_HALF_UP)
             for item in items
         )
         if obj.coupon and obj.coupon.active:
             discount = obj.coupon.discount_percent
-            return round(subtotal * (1 - discount / 100), 2)
+            return (subtotal * Decimal(1 - discount / 100)).quantize(Decimal("0.01"), rounding=ROUND_HALF_UP)
         return subtotal

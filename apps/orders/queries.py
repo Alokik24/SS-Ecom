@@ -21,3 +21,7 @@ def get_order_status_history_for_user(user, order_id=None):
     if order_id:
         qs = qs.filter(order_id=order_id)
     return qs
+
+def get_queryset(self):
+    qs = get_order_status_history_for_user(self.request.user)
+    return qs.filter(order__user=self.request.user)

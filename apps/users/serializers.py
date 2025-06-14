@@ -27,6 +27,7 @@ class RegisterSerializer(serializers.ModelSerializer):
 
 
 class LoginSerializer(serializers.Serializer):
+
     email = serializers.EmailField()
     password = serializers.CharField(write_only=True)
     access = serializers.CharField(read_only=True)
@@ -38,13 +39,10 @@ class LoginSerializer(serializers.Serializer):
             raise serializers.ValidationError('Invalid credentials')
 
         self.user = user
-
         refresh = RefreshToken.for_user(user)
-
         return {
-            'access': str(refresh.access_token),
-            'refresh': str(refresh),
-            '2fa_required': user.is_2fa_enabled and not user.is_2fa_verified
+            "access": str(refresh.access_token),
+            "refresh": str(refresh),
         }
 
 class OTPVerifySerializer(serializers.Serializer):
