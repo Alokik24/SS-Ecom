@@ -28,3 +28,6 @@ media/
 env/
 venv/
 ENV/
+
+
+node_modules/

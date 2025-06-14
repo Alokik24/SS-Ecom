@@ -28,7 +28,7 @@ class Product(models.Model):
     vendor = models.ForeignKey(settings.AUTH_USER_MODEL, related_name='products', on_delete=models.CASCADE, null=True, blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
     slug = models.SlugField(unique=True, blank=True, max_length=255)
-    url = models.URLField()
+    url = models.URLField(default='', blank=True)
     image = ProcessedImageField(
         upload_to='products',
         processors=[ResizeToFit(300, 300)],

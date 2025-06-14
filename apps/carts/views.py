@@ -68,6 +68,7 @@ class CartItemViewSet(viewsets.ModelViewSet):
         quantity = serializer.validated_data.get('quantity', 1)
         cart_item, _ = add_item_to_cart(self.request.user, product, quantity)
         serializer.instance = cart_item
+        serializer.save()
 
     def get_serializer_context(self):
         return {'request': self.request}

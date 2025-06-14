@@ -18,33 +18,33 @@ class RegisterView(generics.CreateAPIView):
     serializer_class = RegisterSerializer
     permission_classes = [permissions.AllowAny]
 
-class LoginView(APIView):
-    permission_classes = [permissions.IsAuthenticated]
+
+class LoginView(generics.GenericAPIView):
+    permission_classes = [permissions.AllowAny]  # ✅ Fix here
+    serializer_class = LoginSerializer
 
     def post(self, request):
-        serializer = LoginSerializer(data=request.data)
-        if serializer.is_valid():
-            user = serializer.user  # ✅ Pull user instance
+        serializer = self.get_serializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
 
-            if user.is_2fa_enabled and not user.is_2fa_verified:
-                return Response({
-                    "2fa_required": True,
-                    "message": "2FA required. Scan QR and verify OTP.",
-                    "access": serializer.validated_data.get('access'),
-                    "refresh": serializer.validated_data.get('refresh'),
-                }, status=200)
+        user = serializer.user
 
+        if user.is_2fa_enabled and not user.is_2fa_verified:
             return Response({
+                "2fa_required": True,
+                "message": "2FA required. Scan QR and verify OTP.",
                 "access": serializer.validated_data.get('access'),
                 "refresh": serializer.validated_data.get('refresh'),
-                "2fa_required": False
             }, status=200)
 
-        return Response(serializer.errors, status=400)
-
+        return Response({
+            "access": serializer.validated_data.get('access'),
+            "refresh": serializer.validated_data.get('refresh'),
+            "2fa_required": False
+        }, status=200)
 
 class LogoutView(APIView):
-    permission_classes = [permissions.IsAuthenticated]
+    permission_classes = [permissions.AllowAny]
 
     def post(self, request):
         user = request.user
