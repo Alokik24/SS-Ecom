@@ -1,6 +1,6 @@
 from rest_framework import generics, permissions, status
 from rest_framework.response import Response
-from .serializers import RegisterSerializer, LoginSerializer, UserSerializer, OTPVerifySerializer
+from .serializers import RegisterSerializer, LoginSerializer, UserSerializer, OTPVerifySerializer, Disable2FASerializer
 from rest_framework.views import APIView
 from .permissions import IsAdmin, IsVendor, IsCustomer
 import pyotp
@@ -44,7 +44,7 @@ class LoginView(generics.GenericAPIView):
         }, status=200)
 
 class LogoutView(APIView):
-    permission_classes = [permissions.AllowAny]
+    permission_classes = [permissions.IsAuthenticated]
 
     def post(self, request):
         user = request.user
@@ -129,3 +129,30 @@ class Verify2FAView(generics.GenericAPIView):
             return Response({'message': '2FA verified'}, status=status.HTTP_200_OK)
         else:
             return Response({'error': 'Invalid OTP'}, status=status.HTTP_400_BAD_REQUEST)
+
+class Disable2FAView(generics.GenericAPIView):
+    permission_classes = [permissions.IsAuthenticated]
+    serializer_class = Disable2FASerializer
+
+    def post(self, request):
+        serializer = self.get_serializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+
+        user = request.user
+        password = serializer.validated_data['password']
+        otp = serializer.validated_data['otp']
+        
+        if not user.check_password(password):
+            return Response({'error': 'Invalid password'}, status=status.HTTP_400_BAD_REQUEST)
+
+        if user.is_2fa_enabled and user.totp_secret:
+            totp = pyotp.TOTP(user.totp_secret)
+            if otp and not totp.verify(otp):
+                return Response({'error': 'Invalid OTP'}, status=status.HTTP_400_BAD_REQUEST)
+
+        user.totp_secret = None
+        user.is_2fa_enabled = False
+        user.is_2fa_verified = False
+        user.save()
+
+        return Response({'message': '2FA disabled'}, status=status.HTTP_200_OK)

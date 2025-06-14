@@ -47,3 +47,7 @@ class LoginSerializer(serializers.Serializer):
 
 class OTPVerifySerializer(serializers.Serializer):
     otp = serializers.CharField()
+
+class Disable2FASerializer(serializers.Serializer):
+    password = serializers.CharField()
+    otp = serializers.CharField()
