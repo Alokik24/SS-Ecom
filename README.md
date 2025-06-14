@@ -1,87 +1,87 @@
+# SS-Ecom (Social Shoppr)
 
-# SS-Ecom – Secure E-commerce API with 2FA and Stripe Payment
+A comprehensive Django REST Framework-based e-commerce backend API with robust authentication, JWT token handling, role-based access control, and Two-Factor Authentication (2FA) capabilities.
 
-A Django REST Framework-based e-commerce backend API with secure authentication, JWT token handling, role-based access (`Admin`, `Vendor`, `Customer`), and Two-Factor Authentication (2FA) using TOTP and QR codes. Includes interactive **Swagger docs** via `drf-yasg`.
+## ✨ Features
 
----
+- **🔐 JWT Authentication** - Secure token-based authentication using `SimpleJWT`
+- **🛡️ Two-Factor Authentication (2FA)** - TOTP implementation with QR code generation
+- **👥 Role-Based Access Control** - Support for Admin, Vendor, and Customer roles
+- **📱 User Management** - Complete user registration, login, logout, and profile management
+- **📚 Interactive API Documentation** - Auto-generated Swagger UI using `drf-yasg`
+- **🎯 RESTful API Design** - Clean, consistent API endpoints
+- **🔒 Secure Backend** - Built with Django security best practices
 
-## Features
-
--  JWT Authentication (`SimpleJWT`)
--  Two-Factor Authentication (TOTP via QR Code)
--  Role-Based Access Control (Admin / Vendor / Customer)
--  User Registration, Login, Logout, Profile
--  Swagger API Documentation using `drf-yasg`
-
----
-
-## ⚙ Tech Stack
+## 🛠️ Tech Stack
 
 - **Backend**: Django 4+, Django REST Framework
-- **Auth**: JWT (`djangorestframework-simplejwt`), 2FA (`pyotp`)
-- **Docs**: Swagger (`drf-yasg`)
-- **Database**: SQLite (development)
-- **Tools**: Python 3.10+, Virtualenv
+- **Authentication**: JWT (`djangorestframework-simplejwt`), 2FA (`pyotp`)
+- **Documentation**: Swagger UI (`drf-yasg`)
+- **Database**: SQLite (development) - easily configurable for production databases
+- **Python**: 3.10+
 
----
+## 🚀 Quick Start
 
-## 📦 Installation
+### Prerequisites
 
-### 1. Clone the repository
+- Python 3.10 or higher
+- Git
 
-```bash
-git clone https://github.com/Alokik24/SS-Ecom.git
-cd SS-Ecom
-```
+### Installation
 
-### 2. Create and activate virtual environment
+1. **Clone the repository**
+   ```bash
+   git clone https://github.com/Alokik24/SS-Ecom.git
+   cd SS-Ecom
+   ```
 
-```bash
-python -m venv .venv
-.venv\Scripts\activate   # Windows
-source .venv/bin/activate  # macOS/Linux
-```
+2. **Create and activate virtual environment**
+   ```bash
+   python -m venv .venv
+   
+   # Windows
+   .venv\Scripts\activate
+   
+   # macOS/Linux
+   source .venv/bin/activate
+   ```
 
-### 3. Install dependencies
+3. **Install dependencies**
+   ```bash
+   pip install -r requirements.txt
+   ```
 
-```bash
-pip install -r requirements.txt
-```
+4. **Run database migrations**
+   ```bash
+   python manage.py migrate
+   ```
 
-### 4. Apply migrations
+5. **Create a superuser (optional)**
+   ```bash
+   python manage.py createsuperuser
+   ```
 
-```bash
-python manage.py migrate
-```
+6. **Start the development server**
+   ```bash
+   python manage.py runserver
+   ```
 
-### 5. Create a superuser (for admin access)
+The API will be available at `http://localhost:8000/`
 
-```bash
-python manage.py createsuperuser
-```
+## 🔑 Two-Factor Authentication (2FA) Flow
 
-### 6. Run the server
+SS-Ecom implements a secure 2FA flow using TOTP (Time-based One-Time Password):
 
-```bash
-python manage.py runserver
-```
+1. **User logs in** → If 2FA is enabled but not verified, server prompts for OTP
+2. **Generate 2FA secret** → User visits `/api/generate-2fa/` to receive a QR code and TOTP secret
+3. **Scan QR code** → QR code is scanned in Google Authenticator or similar TOTP app
+4. **Verify OTP** → OTP is submitted via `/api/verify-2fa/`
+5. **Authentication complete** → On success, full authentication session is established
 
----
+## 📋 API Endpoints
 
-## 🔐 2FA Setup Flow
-
-1. User logs in → if 2FA is enabled but not verified, server prompts for OTP.
-2. User visits `/api/generate-2fa/` to receive a **QR code and TOTP secret**.
-3. QR code is scanned in Google Authenticator or similar app.
-4. OTP is submitted via `/api/verify-2fa/`.
-5. On success, full authentication session is established.
-
----
-
-## 📡 API Endpoints Overview
-
-| Endpoint | Method | Auth | Description |
-|----------|--------|------|-------------|
+| Endpoint | Method | Auth Required | Description |
+|----------|--------|---------------|-------------|
 | `/api/register/` | POST | ❌ | Register a new user |
 | `/api/login/` | POST | ❌ | Login with email & password |
 | `/api/logout/` | POST | ✅ | Log out and reset 2FA state |
@@ -90,72 +90,132 @@ python manage.py runserver
 | `/api/verify-2fa/` | POST | ✅ | Submit OTP for 2FA verification |
 | `/api/docs/` | GET | ❌ | Swagger UI (Auto-generated docs) |
 
----
+## 📖 API Documentation
 
-## 📘 API Documentation (Swagger)
+Interactive API documentation is available through Swagger UI:
 
-Swagger UI is auto-generated using [`drf-yasg`](https://github.com/axnsan12/drf-yasg).
+- **Swagger UI**: `http://localhost:8000/api/docs/`
+- **ReDoc** (if enabled): `http://localhost:8000/api/redoc/`
 
-> 📍 Visit:  
-> 👉 [`http://localhost:8000/api/docs/`](http://localhost:8000/api/docs/)  
-> 👉 [`http://localhost:8000/api/redoc/`](http://localhost:8000/api/redoc/) *(if added)*
+The documentation is auto-generated using `drf-yasg` and provides:
+- Complete endpoint documentation
+- Request/response schemas
+- Authentication requirements
+- Interactive testing capabilities
 
----
+## 🏗️ Project Structure
 
-## ✅ How to Set Up Swagger (`drf-yasg`)
+```
+SS-Ecom/
+├── manage.py
+├── requirements.txt
+├── SS_Ecom/
+│   ├── __init__.py
+│   ├── settings.py
+│   ├── urls.py
+│   └── wsgi.py
+├── apps/
+│   ├── authentication/
+│   ├── users/
+│   └── ...
+└── README.md
+```
 
-Already included in the repo. But in case you’re setting it up yourself:
+## 🔧 Configuration
 
-### Install `drf-yasg`
+### Environment Variables
+
+For production deployment, configure the following environment variables:
 
 ```bash
-pip install drf-yasg
+DEBUG=False
+SECRET_KEY=your-secret-key-here
+DATABASE_URL=your-database-url
+ALLOWED_HOSTS=your-domain.com
 ```
 
-### In `urls.py`:
+### Database Configuration
+
+The project uses SQLite by default for development. For production, configure your preferred database in `settings.py`:
 
 ```python
-from rest_framework import permissions
-from drf_yasg.views import get_schema_view
-from drf_yasg import openapi
-
-schema_view = get_schema_view(
-   openapi.Info(
-      title="SS-Ecom API",
-      default_version='v1',
-      description="API documentation for the SS-Ecom Django backend",
-      contact=openapi.Contact(email="your-email@example.com"),
-   ),
-   public=True,
-   permission_classes=(permissions.AllowAny,),
-)
-
-urlpatterns += [
-    path('api/docs/', schema_view.with_ui('swagger', cache_timeout=0), name='schema-swagger-ui'),
-    path('api/redoc/', schema_view.with_ui('redoc', cache_timeout=0), name='schema-redoc'),  # optional
-]
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'your_db_name',
+        'USER': 'your_db_user',
+        'PASSWORD': 'your_db_password',
+        'HOST': 'localhost',
+        'PORT': '5432',
+    }
+}
 ```
 
----
+## 👥 User Roles
 
-## 🧾 License
+The system supports three distinct user roles:
 
-BSD License © 2025 [Alokik Garg](https://github.com/Alokik24)
+- **Admin**: Full system access and management capabilities
+- **Vendor**: Product and inventory management
+- **Customer**: Shopping and order management
 
----
+## 🔒 Security Features
 
-## 🤝 Contribution
+- JWT token-based authentication
+- TOTP-based Two-Factor Authentication
+- Role-based access control
+- Secure password hashing
+- CORS configuration
+- Input validation and sanitization
 
-Pull requests are welcome!  
-To contribute:
-- Fork the repo
-- Create a feature branch
-- Commit & push
-- Open a PR
+## 🤝 Contributing
 
----
+Contributions are welcome! Here's how to get started:
 
-## 📬 Contact
+1. **Fork the repository**
+2. **Create a feature branch**
+   ```bash
+   git checkout -b feature/amazing-feature
+   ```
+3. **Make your changes and commit**
+   ```bash
+   git commit -m "Add amazing feature"
+   ```
+4. **Push to your branch**
+   ```bash
+   git push origin feature/amazing-feature
+   ```
+5. **Open a Pull Request**
 
+## 📄 License
+
+This project is licensed under the BSD License. See the [LICENSE](LICENSE) file for details.
+
+## 👨‍💻 Author
+
+**Alokik Garg**
 - GitHub: [@Alokik24](https://github.com/Alokik24)
-- Email: `alokikgarg24@gmail.com`
+- Email: alokikgarg24@gmail.com
+
+## 🆘 Support
+
+If you encounter any issues or have questions:
+
+1. Check the [Issues](https://github.com/Alokik24/SS-Ecom/issues) page
+2. Create a new issue with detailed information
+3. Contact the author via email
+
+## 🚀 Deployment
+
+For production deployment, consider:
+
+- Using PostgreSQL or MySQL instead of SQLite
+- Configuring proper environment variables
+- Setting up proper CORS policies
+- Implementing rate limiting
+- Using a production WSGI server like Gunicorn
+- Setting up proper logging and monitoring
+
+---
+
+⭐ If you find this project helpful, please consider giving it a star!
