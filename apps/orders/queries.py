@@ -1,5 +1,6 @@
 from apps.carts.models import Cart
 from .models import Order, OrderStatusHistory
+from rest_framework.exceptions import NotAuthenticated
 
 def get_user_cart(user):
     return (
@@ -11,6 +12,8 @@ def get_user_cart(user):
     )
 
 def get_user_orders(user):
+    if not user.is_authenticated:
+        raise NotAuthenticated("You must be logged in to view your orders.")
     return Order.objects.filter(user=user)
 
 def get_order_status_history(user, order):

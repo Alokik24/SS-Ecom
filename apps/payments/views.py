@@ -1,3 +1,4 @@
+import json
 from decimal import Decimal, InvalidOperation
 from django.shortcuts import render
 import stripe
@@ -89,11 +90,17 @@ class VerifyPaymentView(APIView):
             session = stripe.checkout.Session.retrieve(session_id)
             payment_intent = stripe.PaymentIntent.retrieve(session.payment_intent)
 
+            print("✅ Stripe Checkout Session:")
+            print(json.dumps(session, indent=2, default=str))
+
+            print("\n✅ Stripe Payment Intent:")
+            print(json.dumps(payment_intent, indent=2, default=str))
+
             transaction.stripe_payment_intent = payment_intent.id
             transaction.status = payment_intent.status  # 'succeeded', 'requires_payment_method', etc.
             transaction.save()
 
-            # Optional: update order status if payment succeeded
+            # update order status if payment succeeded
             if payment_intent.status == 'succeeded' and transaction.order:
                 if transaction.order.status == 'pending':
                     transaction.order.status = 'processing'
