@@ -1,26 +1,28 @@
 # SS-Ecom (Social Shoppr)
 
-A comprehensive Django REST Framework-based e-commerce backend API with robust authentication, JWT token handling, role-based access control, and Two-Factor Authentication (2FA) capabilities.
+A comprehensive Django REST Framework-based e-commerce backend API with robust authentication, JWT token handling, role-based access control, Stripe-based payments and Two-Factor Authentication (2FA) capabilities.
 
-## ✨ Features
+## Features
 
-- **🔐 JWT Authentication** - Secure token-based authentication using `SimpleJWT`
-- **🛡️ Two-Factor Authentication (2FA)** - TOTP implementation with QR code generation
-- **👥 Role-Based Access Control** - Support for Admin, Vendor, and Customer roles
-- **📱 User Management** - Complete user registration, login, logout, and profile management
-- **📚 Interactive API Documentation** - Auto-generated Swagger UI using `drf-yasg`
-- **🎯 RESTful API Design** - Clean, consistent API endpoints
-- **🔒 Secure Backend** - Built with Django security best practices
+- **JWT Authentication** - Secure token-based authentication using `SimpleJWT`
+- **Two-Factor Authentication (2FA)** - TOTP implementation with QR code generation
+- **Role-Based Access Control** - Support for Admin, Vendor, and Customer roles
+- **User Management** - Complete user registration, login, logout, and profile management
+- **Interactive API Documentation** - Auto-generated Swagger UI using `drf-yasg`
+- **RESTful API Design** - Clean, consistent API endpoints
+- **Secure Backend** - Built with Django security best practices
+- **Stripe Integration** - Seamless checkout with Stripe, webhook support for payment events
 
-## 🛠️ Tech Stack
+##  Tech Stack
 
 - **Backend**: Django 4+, Django REST Framework
 - **Authentication**: JWT (`djangorestframework-simplejwt`), 2FA (`pyotp`)
 - **Documentation**: Swagger UI (`drf-yasg`)
 - **Database**: SQLite (development) - easily configurable for production databases
 - **Python**: 3.10+
+- **Payments**: Stripe 
 
-## 🚀 Quick Start
+##  Quick Start
 
 ### Prerequisites
 
@@ -68,7 +70,7 @@ A comprehensive Django REST Framework-based e-commerce backend API with robust a
 
 The API will be available at `http://localhost:8000/`
 
-## 🔑 Two-Factor Authentication (2FA) Flow
+##  Two-Factor Authentication (2FA) Flow
 
 SS-Ecom implements a secure 2FA flow using TOTP (Time-based One-Time Password):
 
@@ -90,11 +92,11 @@ SS-Ecom implements a secure 2FA flow using TOTP (Time-based One-Time Password):
 | `/api/verify-2fa/` | POST | ✅ | Submit OTP for 2FA verification |
 | `/api/docs/` | GET | ❌ | Swagger UI (Auto-generated docs) |
 
-## 📖 API Documentation
+##  API Documentation
 
 Interactive API documentation is available through Swagger UI:
 
-- **Swagger UI**: `http://localhost:8000/api/docs/`
+- **Swagger UI**: `http://localhost:8000/swagger`
 - **ReDoc** (if enabled): `http://localhost:8000/api/redoc/`
 
 The documentation is auto-generated using `drf-yasg` and provides:
@@ -103,7 +105,7 @@ The documentation is auto-generated using `drf-yasg` and provides:
 - Authentication requirements
 - Interactive testing capabilities
 
-## 🏗️ Project Structure
+## Basic Project Structure
 
 ```
 SS-Ecom/
@@ -115,13 +117,13 @@ SS-Ecom/
 │   ├── urls.py
 │   └── wsgi.py
 ├── apps/
-│   ├── authentication/
+│   ├── payments/
 │   ├── users/
 │   └── ...
 └── README.md
 ```
 
-## 🔧 Configuration
+##  Configuration
 
 ### Environment Variables
 
@@ -132,26 +134,17 @@ DEBUG=False
 SECRET_KEY=your-secret-key-here
 DATABASE_URL=your-database-url
 ALLOWED_HOSTS=your-domain.com
+
+STRIPE_SECRET_KEY=sk_test_...
+STRIPE_PUBLISHABLE_KEY=pk_test_...
+STRIPE_WEBHOOK_SECRET=whsec_...
 ```
 
 ### Database Configuration
 
 The project uses SQLite by default for development. For production, configure your preferred database in `settings.py`:
 
-```python
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'your_db_name',
-        'USER': 'your_db_user',
-        'PASSWORD': 'your_db_password',
-        'HOST': 'localhost',
-        'PORT': '5432',
-    }
-}
-```
-
-## 👥 User Roles
+## User Roles
 
 The system supports three distinct user roles:
 
@@ -159,7 +152,7 @@ The system supports three distinct user roles:
 - **Vendor**: Product and inventory management
 - **Customer**: Shopping and order management
 
-## 🔒 Security Features
+## Security Features
 
 - JWT token-based authentication
 - TOTP-based Two-Factor Authentication
@@ -168,7 +161,34 @@ The system supports three distinct user roles:
 - CORS configuration
 - Input validation and sanitization
 
-## 🤝 Contributing
+## Stripe Payments
+
+SS-Ecom supports secure Stripe-based checkout with webhook handling:
+
+- Create checkout sessions linked to authenticated users and orders
+- Automatically handle payment events via Stripe webhooks:
+  - `checkout.session.completed`
+  - `payment_intent.succeeded`
+  - `payment_intent.payment_failed`
+- Payment status updates are reflected in `PaymentTransaction` and related `Order` models
+
+### Stripe Webhook Setup
+
+1. In your Stripe Dashboard, set the webhook URL to: `http://<your-domain>/api/webhook/`
+2. Use the following events:
+   - `checkout.session.completed`
+   - `payment_intent.succeeded`
+   - `payment_intent.payment_failed`
+
+3. Set your Stripe secret keys and webhook secret in `.env` or `settings.py`:
+
+```env
+STRIPE_SECRET_KEY=your-stripe-secret
+STRIPE_WEBHOOK_SECRET=your-webhook-secret
+```
+Make sure webhook endpoint is accessible publicly in production.
+
+##  Contributing
 
 Contributions are welcome! Here's how to get started:
 
@@ -187,17 +207,17 @@ Contributions are welcome! Here's how to get started:
    ```
 5. **Open a Pull Request**
 
-## 📄 License
+##  License
 
 This project is licensed under the BSD License. See the [LICENSE](LICENSE) file for details.
 
-## 👨‍💻 Author
+##  Author
 
 **Alokik Garg**
 - GitHub: [@Alokik24](https://github.com/Alokik24)
 - Email: alokikgarg24@gmail.com
 
-## 🆘 Support
+##  Support
 
 If you encounter any issues or have questions:
 
@@ -205,7 +225,7 @@ If you encounter any issues or have questions:
 2. Create a new issue with detailed information
 3. Contact the author via email
 
-## 🚀 Deployment
+##  Deployment
 
 For production deployment, consider:
 
